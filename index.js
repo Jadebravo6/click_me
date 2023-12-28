@@ -66,11 +66,11 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('player clic', (uname) => {
+    socket.on('player clic', (uname, average) => {
         let data = require(__dirname + '/data/data.json');
         
         const playerData = data.filter((player) => player.uname == uname)[0];
-        playerData.score++;
+        playerData.score += average;
         fs.writeFileSync(__dirname + '/data/data.json', JSON.stringify(data, null, 2));
 
         data = data.sort((a, b) => b.score - a.score);

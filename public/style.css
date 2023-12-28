@@ -1,3 +1,9 @@
+* {
+    user-zoom: none !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
 .app {
     width: 100vw;
     height: 100vh;
@@ -8,6 +14,7 @@
     align-items:center;
 
     overflow: auto;
+    user-zoom: none;
 }
 
 .ui.button {
@@ -24,7 +31,7 @@
     background-color: rgb(141, 195, 141);
     border-radius: 0 !important;
     border-bottom: 13px solid rgba(99, 99, 99, 0.366);
-    transition: border-bottom 0.3s;
+    transition: border-bottom 0.1s;
 
 }
 
@@ -72,6 +79,6 @@
 #chronometre {
     color: black;
     font-size: 2rem;
-    margin-top: 4rem;
+    margin-top: 2rem;
 }
 

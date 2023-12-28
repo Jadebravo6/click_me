@@ -13,7 +13,7 @@
         localStorage.setItem('player', uname);
     }
 
-    if(localStorage.getItem('on_game') && localStorage.getItem('on_game') == true) {
+    if(localStorage.getItem('on_game') == 'true') {
         document.getElementById('click_me').style.display = 'flex';
         document.getElementById('auto_click').style.display = 'flex';
         document.getElementById('start').style.display = 'none';

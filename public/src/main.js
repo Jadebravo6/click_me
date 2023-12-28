@@ -3,9 +3,13 @@
 (function() {
     const socket = io();
 
-    const uname = prompt('Entrez votre nom');
+    if(localStorage.getItem('player')) {
+        socket.emit('existing player', localStorage.getItem('player'));
+    } else {
+        const uname = prompt('Entrez votre nom');
         socket.emit('new player', uname);
         localStorage.setItem('player', uname);
+    }
     
 
     socket.on('user connected', (playerData)=>{

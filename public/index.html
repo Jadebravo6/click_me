@@ -1,1 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLICK</title>
 
+    <!-- Semantic UI -->
+    <script src="res/semantic-ui/jquery@3.4.1.js"></script>
+    <script src="res/semantic-ui/semantic.min.js"></script>
+    <link rel="stylesheet" href="res/semantic-ui/semantic.min.css">
+</head>
+
+<body>
+    <main class="app">
+        <div class="participants"></div>
+        <div class="ui button" id="click_me">
+            CLICK HERE
+        </div>
+        <div class="resultats"></div>
+    </main>
+
+    <div id="chronometre">00:00:00</div>
+
+    <script src="socket.io/socket.io.js"></script>
+    <script src="src/main.js"></script>
+</body>
+</html>

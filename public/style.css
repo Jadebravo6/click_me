@@ -6,6 +6,8 @@
     flex-direction: column;
     justify-content:center;
     align-items:center;
+
+    overflow: auto;
 }
 
 .ui.button {
@@ -16,26 +18,34 @@
     display: flex;
     align-items:center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
-#click_me {display: none;}
+#click_me,
+#auto_click {
+    display: none;
+    margin-bottom: 4rem;
+}
 
 .ui.button:hover {
     background-color: rgb(141, 195, 141);
 }
 
 .participants {
-    transform: scale(2);
-    margin-bottom: 8rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+    margin-bottom: 2rem;
 }
 
 .player {
     padding: 1rem;
     border-bottom: 1px solid black;
+    margin-bottom: 1rem;
 }
 
 #chronometre {
     color: black;
-    transform: scale(2);
-    margin-top: 8rem;
+    font-size: 2rem;
+    margin-top: 4rem;
 }

@@ -10,7 +10,15 @@
         socket.emit('new player', uname);
         localStorage.setItem('player', uname);
     }
-    
+
+    socket.on('user not connected', ()=>{
+        if(localStorage.getItem('player'))
+            localStorage.removeItem('player');
+
+        const uname = prompt('Entrez votre nom');
+        socket.emit('new player', uname);
+        localStorage.setItem('player', uname);
+    })
 
     socket.on('user connected', (playerData)=>{
         document.querySelector('.participants').innerHTML = '';
@@ -21,43 +29,35 @@
         `;
     })
 
+    // mettre a jour le chrono
+    socket.on('update chrono', (seconds) => {
+        // Fonction pour formater le temps sous forme d'une chaîne HH:MM:SS
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
 
-    // Fonction pour formater le temps sous forme d'une chaîne HH:MM:SS
-    function formatTime(seconds) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(remainingSeconds).padStart(2, '0');
 
-        const formattedHours = String(hours).padStart(2, '0');
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-
-        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-    }
-
-    // Fonction pour mettre à jour le chronomètre
-    function updateChronometer() {
-        seconds++;
-        chronometerElement.textContent = formatTime(seconds);
-
-        // Vérifier si le temps est écoulé (par exemple, après 10 secondes)
-        if (seconds >= 60) {
-            clearInterval(intervalId); // Arrêter le chronomètre
-            alert("Temps écoulé !"); // Lancer un événement à la fin du chrono
-            document.querySelector('.participants').style.display = 'none';
-            document.getElementById('click_me').style.display = 'none';
-            socket.emit('end');
+            return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
         }
-    }
 
-    // Initialisation des variables
-    let seconds = 0;
-    const chronometerElement = document.getElementById('chronometre');
-    let intervalId;
+        const chronometerElement = document.getElementById('chronometre');
+        chronometerElement.textContent = formatTime(seconds);
+    });
 
-    // Démarrer le chronomètre
-    intervalId = setInterval(updateChronometer, 1000); // Mettre à jour toutes les 1 seconde
+    // Vérifier si le temps est écoulé (par exemple, après 10 secondes)
+    socket.on('end chrono', ()=> {
+        alert("Temps écoulé !"); // Lancer un événement à la fin du chrono
+        document.querySelector('.participants').style.display = 'none';
+        document.getElementById('click_me').style.display = 'none';
+        socket.emit('end');
+        socket.removeListener('update chrono');
+    });
 
+    
     // met a jour la liste
     socket.on('show current score', (playerData)=>{
         document.querySelector('.participants').innerHTML = '';
@@ -76,6 +76,13 @@
             document.querySelector('.resultats').innerHTML += `
                 <div class="player" id="${player.uname}">${player.uname}  a  ${player.score} clic(s)</div>
             `;
+        socket.removeListener('resultats');
+    })
+
+    socket.on('game started', ()=>{
+        document.getElementById('click_me').style.display = 'flex';
+        document.getElementById('start').style.display = 'none';
+        socket.removeListener('game started');
     })
 
     let timeleft = 2;
@@ -89,5 +96,9 @@
 
     document.getElementById('click_me').onclick = ()=>{
         socket.emit('player clic', localStorage.getItem('player'));
+    }
+
+    document.getElementById('start').onclick = ()=>{
+        socket.emit('start game');
     }
 })();

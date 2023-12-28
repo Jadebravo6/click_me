@@ -1,0 +1,41 @@
+.app {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+}
+
+.ui.button {
+    width: 18rem;
+    height: 8rem;
+    font-size: 2rem;
+
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+#click_me {display: none;}
+
+.ui.button:hover {
+    background-color: rgb(141, 195, 141);
+}
+
+.participants {
+    transform: scale(2);
+    margin-bottom: 8rem;
+}
+
+.player {
+    padding: 1rem;
+    border-bottom: 1px solid black;
+}
+
+#chronometre {
+    color: black;
+    transform: scale(2);
+    margin-top: 8rem;
+}

@@ -4,6 +4,7 @@
     const socket = io();
     let intervalId;
     let auto_clic = false;
+    let on_game = false;
 
     if(localStorage.getItem('player')) {
         socket.emit('existing player', localStorage.getItem('player'));
@@ -100,18 +101,20 @@
     }
 
     function auto_clic_f() {
-        socket.emit('player clic', localStorage.getItem('player'), 6);
+        socket.emit('player clic', localStorage.getItem('player'), 1);
     }
 
     document.getElementById('auto_click').onclick = ()=>{
         if(!auto_clic) {
             auto_clic = true;
 
-            intervalId = setInterval(auto_clic_f, 400);
+            intervalId = setInterval(auto_clic_f, 130);
+            document.getElementById('auto_click').classList.add('animated');
         }
         else {
             auto_clic = false;
             clearInterval(intervalId);
+            document.getElementById('auto_click').classList.remove('animated');
         }
     }
 

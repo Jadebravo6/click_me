@@ -4,7 +4,6 @@
     const socket = io();
     let intervalId;
     let auto_clic = false;
-    let on_game = false;
 
     if(localStorage.getItem('player')) {
         socket.emit('existing player', localStorage.getItem('player'));
@@ -12,6 +11,12 @@
         const uname = prompt('Entrez votre nom');
         socket.emit('new player', uname);
         localStorage.setItem('player', uname);
+    }
+
+    if(localStorage.getItem('on_game') && localStorage.getItem('on_game') == true) {
+        document.getElementById('click_me').style.display = 'flex';
+        document.getElementById('auto_click').style.display = 'flex';
+        document.getElementById('start').style.display = 'none';
     }
 
     socket.on('user not connected', ()=>{
@@ -60,6 +65,7 @@
         socket.emit('end');
         socket.removeListener('update chrono');
         clearInterval(intervalId);
+        localStorage.setItem('on_game', 'false');
     });
 
     
@@ -89,6 +95,7 @@
         document.getElementById('auto_click').style.display = 'flex';
         document.getElementById('start').style.display = 'none';
         socket.removeListener('game started');
+        localStorage.setItem('on_game', 'true');
     })
 
     let timeleft = 2;

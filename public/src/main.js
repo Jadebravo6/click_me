@@ -2,6 +2,8 @@
 
 (function() {
     const socket = io();
+    let intervalId;
+    let auto_clic = false;
 
     if(localStorage.getItem('player')) {
         socket.emit('existing player', localStorage.getItem('player'));
@@ -53,8 +55,10 @@
         alert("Temps écoulé !"); // Lancer un événement à la fin du chrono
         document.querySelector('.participants').style.display = 'none';
         document.getElementById('click_me').style.display = 'none';
+        document.getElementById('auto_click').style.display = 'none';
         socket.emit('end');
         socket.removeListener('update chrono');
+        clearInterval(intervalId);
     });
 
     
@@ -81,6 +85,7 @@
 
     socket.on('game started', ()=>{
         document.getElementById('click_me').style.display = 'flex';
+        document.getElementById('auto_click').style.display = 'flex';
         document.getElementById('start').style.display = 'none';
         socket.removeListener('game started');
     })
@@ -89,13 +94,29 @@
     function time() {
         if(timeleft == 2 * (1000 * 3600))
         document.querySelector('.time').textContent = timeleft;
-        setTimeout(() =>{
+        setTimeout(() => {
             time()
         }, 1000);
     }
 
+    function auto_clic_f() {
+        socket.emit('player clic', localStorage.getItem('player'), 6);
+    }
+
+    document.getElementById('auto_click').onclick = ()=>{
+        if(!auto_clic) {
+            auto_clic = true;
+
+            intervalId = setInterval(auto_clic_f, 400);
+        }
+        else {
+            auto_clic = false;
+            clearInterval(intervalId);
+        }
+    }
+
     document.getElementById('click_me').onclick = ()=>{
-        socket.emit('player clic', localStorage.getItem('player'));
+        socket.emit('player clic', localStorage.getItem('player'), 1);
     }
 
     document.getElementById('start').onclick = ()=>{

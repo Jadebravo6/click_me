@@ -16,7 +16,7 @@ const port = 3000;
 function updateChronometer() {
     seconds++;
 
-    if (seconds >= 10) {
+    if (seconds >= 30) {
         clearInterval(intervalId); // Arrêter le chronomètre
         io.emit('end chrono', seconds);
     }

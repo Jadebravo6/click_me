@@ -49,14 +49,13 @@ io.on('connection', (socket) => {
         io.emit('show current score', data);
     })
 
-    socket.on('end', ()=>{
+    socket.on('end', (player)=>{
         let data = require(__dirname + '/data/data.json');
 
         socket.emit('resultats', data);
 
-        for(player of data) {
-            player.score = 0;
-        }
+        const playerData = data.filter((player) => player.uname == uname)[0];
+        playerData.score = 0;
 
         fs.writeFileSync(__dirname + '/data/data.json', JSON.stringify(data, null, 2));
     });

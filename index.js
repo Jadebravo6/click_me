@@ -54,8 +54,9 @@ io.on('connection', (socket) => {
 
         socket.emit('resultats', data);
 
-        const playerData = data.filter((player) => player.uname == player)[0];
-        playerData.score = 0;
+        for(player of data) {
+            data.score = 0;
+        }
 
         fs.writeFileSync(__dirname + '/data/data.json', JSON.stringify(data, null, 2));
     });

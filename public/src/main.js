@@ -45,7 +45,7 @@
             alert("Temps écoulé !"); // Lancer un événement à la fin du chrono
             document.querySelector('.participants').style.display = 'none';
             document.getElementById('click_me').style.display = 'none';
-            socket.emit('end');
+            socket.emit('end', localStorage.getItem('player'));
         }
     }
 

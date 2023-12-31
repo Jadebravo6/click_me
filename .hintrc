@@ -4,6 +4,13 @@
   ],
   "hints": {
     "meta-viewport": "on",
-    "compat-api/css": "off"
+    "compat-api/css": [
+      "off",
+      {
+        "ignore": [
+          "user-select"
+        ]
+      }
+    ]
   }
 }

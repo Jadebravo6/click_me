@@ -4,6 +4,20 @@
     -webkit-user-select: none;
 }
 
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+
+    overflow: hidden;
+    user-zoom: none;
+
+    /* box-shadow: 4px 4px 7px 0 rgba(0, 0, 0, 0.348);
+    padding: 1rem;
+    border-radius:1.2rem */
+}
+
 .app {
     width: 100vw;
     height: 100vh;
@@ -17,6 +31,10 @@
     user-zoom: none;
 }
 
+.you {
+    background-color: rgba(0, 110, 255, 0.211);
+}
+
 .ui.button {
     width: 18rem;
     height: 8rem;
@@ -28,38 +46,66 @@
     flex-shrink: 0 !important;
     padding: 0;
 
-    background-color: rgb(141, 195, 141);
+    /* transform: skewX(16deg); */
     border-radius: 0 !important;
     border-bottom: 13px solid rgba(99, 99, 99, 0.366);
-    transition: border-bottom 0.1s;
+    /* border-left: 13px solid rgba(99, 99, 99, 0.44); */
+    transition: all 0.1s;
 
 }
 
+/* .ui.button .before,
+.ui.button:hover .before {
+    position: absolute;
+    top: 0;
+    left: -29px;
+    background-color: rgb(255, 255, 255) !important;
+    width:20px;
+    height: 26px;
+    transform: skewX(-32deg);
+}
+.ui.button .after,
+.ui.button:hover .after {
+    position: absolute;
+    bottom: -23px;
+    right: -14px;
+    background-color: rgb(255, 255, 255) !important;
+    width:20px;
+    height: 26px;
+    transform: skewX(-32deg);
+} */
+
 #click_me,
-#auto_click {
+#auto_click,
+#return {
     display: none;
     margin-bottom: 4rem;
 }
 
 @keyframes bounding {
     0% {
+        /* border-left: 13px solid rgba(99, 99, 99, 0.44); */
         border-bottom: 13px solid rgba(99, 99, 99, 0.366);
     }
     50% {
+        /* border-left: 7.5px solid rgba(99, 99, 99, 0.44); */
         border-bottom: 7.5px solid rgba(99, 99, 99, 0.366);
     }
 }
 
 .animated {
     animation: bounding 130ms ease-in 0s infinite;
+    transform: none !important;
+    border-left: none !important;
 }
 
-.ui.button:hover {
-    /* transform: scale(1.2); */
-    /* box-shadow: 0px -7px 9px 4px rgba(76, 76, 76, 0.581) inset; */
-    background-color: rgb(141, 195, 141);
+#return, #start {
+    transform: none !important;
+    border-left: none !important;
 }
+
 .ui.button:active {
+    /* border-left: 7.5px solid rgba(99, 99, 99, 0.44); */
     border-bottom: 7.5px solid rgba(99, 99, 99, 0.366);
 }
 
@@ -80,5 +126,6 @@
     color: black;
     font-size: 2rem;
     margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 

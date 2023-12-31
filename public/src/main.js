@@ -30,11 +30,14 @@
 
     socket.on('user connected', (playerData)=>{
         document.querySelector('.participants').innerHTML = '';
+        let count = 0;
 
-        for(player of playerData)
-        document.querySelector('.participants').innerHTML += `
-        <div class="player" id="${player.uname}">${player.uname}  a  ${player.score} clic(s)</div>
-        `;
+        for(player of playerData) {
+            count++;
+            document.querySelector('.participants').innerHTML += `
+                <div class="player ${player.uname == localStorage.getItem('player') ? 'you' : ''}" id="${player.uname}">${count} | ${player.uname}  a  ${player.score} clic${player.score>1 ? 's':''}</div>
+            `;
+        }
     })
 
     // mettre a jour le chrono
@@ -62,9 +65,10 @@
         document.querySelector('.participants').style.display = 'none';
         document.getElementById('click_me').style.display = 'none';
         document.getElementById('auto_click').style.display = 'none';
+
         socket.emit('end');
-        socket.removeListener('update chrono');
         clearInterval(intervalId);
+        socket.removeListener('update chrono');
         localStorage.setItem('on_game', 'false');
     });
 
@@ -72,21 +76,28 @@
     // met a jour la liste
     socket.on('show current score', (playerData)=>{
         document.querySelector('.participants').innerHTML = '';
+        let count = 0;
 
-        for(player of playerData)
+        for(player of playerData) {
+            count++;
             document.querySelector('.participants').innerHTML += `
-                <div class="player" id="${player.uname}">${player.uname}  a  ${player.score} clic(s)</div>
+                <div class="player ${player.uname == localStorage.getItem('player') ? 'you' : ''}" id="${player.uname}">${count} | ${player.uname}  a  ${player.score} clic${player.score>1 ? 's':''}  ${count == 1 ? '🥇' : (count == 2 ? '🥈' : (count == 3 ? '🥉' : (count == 4 ? '🏅' : (count == 5 ? '🎖️' : ''))))}</div>
             `;
+        }
     })
 
     // resultat
     socket.on('resultats', (playerData)=>{
-        document.querySelector('.resultats').innerHTML = '<h1>Les Resultats</h1>';
+        document.getElementById('return').style.display = 'flex';
+        document.querySelector('.resultats').innerHTML = '<h1>Classement</h1>';
+        let count = 0;
 
-        for(player of playerData)
+        for(player of playerData) {
+            count++;
             document.querySelector('.resultats').innerHTML += `
-                <div class="player" id="${player.uname}">${player.uname}  a  ${player.score} clic(s)</div>
+                <div class="player ${player.uname == localStorage.getItem('player') ? 'you' : ''}" id="${player.uname}">${count} | ${player.uname}  a  ${player.score} clic${player.score>1 ? 's':''}  ${count == 1 ? '🥇🏆' : (count == 2 ? '🥈' : (count == 3 ? '🥉' : (count == 4 ? '🏅' : (count == 5 ? '🎖️' : ''))))}</div>
             `;
+        }
         socket.removeListener('resultats');
     })
 
@@ -117,11 +128,13 @@
 
             intervalId = setInterval(auto_clic_f, 130);
             document.getElementById('auto_click').classList.add('animated');
+            document.getElementById('auto_click').textContent = 'Enabled';
         }
         else {
             auto_clic = false;
             clearInterval(intervalId);
             document.getElementById('auto_click').classList.remove('animated');
+            document.getElementById('auto_click').textContent = 'Disableb';
         }
     }
 
@@ -131,5 +144,10 @@
 
     document.getElementById('start').onclick = ()=>{
         socket.emit('start game');
+    }
+
+    document.getElementById('return').onclick = ()=>{
+        location.reload();
+        document.getElementById('return').style.display = 'none';
     }
 })();

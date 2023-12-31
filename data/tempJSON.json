@@ -1,0 +1,26 @@
+[
+    {
+      "id": 160,
+      "valeur": 0,
+      "click_seconde": 0,
+      "roi": 0,
+      "foudre": 0,
+      "clicks": 0,
+      "bouclier": 0,
+      "favoris": 0,
+      "created_at": "2023-12-17T20:59:17.000000Z",
+      "updated_at": "2023-12-17T20:59:17.000000Z",
+      "deleted_at": null,
+      "id_updated_at": null,
+      "id_deleted_at": null,
+      "statut_id": 3,
+      "user_id": 77,
+      "enchere_id": 82,
+      "time_bid_auto": null,
+      "automatique": 0,
+      "temps_bid_auto": 0,
+      "time_bouclier": null,
+      "time_roi": null,
+      "time_foudre": null
+    }
+]

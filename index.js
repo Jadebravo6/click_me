@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require('fs');
 const {v4: uuidv4} = require('uuid');
+const axios = require('axios');
 
 const app = express();
 const server = require("http").createServer(app);
@@ -14,9 +15,9 @@ const port = 3000;
 
 // Fonction pour mettre à jour le chronomètre
 function updateChronometer() {
-    seconds++;
+    seconds--;
 
-    if (seconds >= 100) {
+    if (seconds < 0) {
         clearInterval(intervalId); // Arrêter le chronomètre
         io.emit('end chrono', seconds);
     }
@@ -25,17 +26,53 @@ function updateChronometer() {
 }
 
 // Initialisation des variables
-let seconds = 0;
+const MAX_TIME = 11;
+let seconds = MAX_TIME;
 let intervalId;
+
+// axios.get('http://192.168.11.123:8000/api/detail-enchere/chrono-teste/api/rdc/82')
+
+axios.get('_dirname' + 'data/tempJSON.json')
+    .then(data => {
+        let localOpenedRoom = require(__dirname + '/data/room.json');
+        let apiData = data.data;
+        console.log(apiData);
+
+        let new_user = {}
+
+        if(Array.isArray(localOpenedRoom)) {
+            for(localRoom of localOpenedRoom) {
+                for(apiRoom of apiData) {
+                    if(localRoom.id === apiRoom.enchere_id) {
+                        
+                    }
+                }
+            }
+        }
+
+        for(user of apiData) {
+            new_user = {
+                uname: user.user_id,
+                score: user.clicks
+            };
+
+            localData.push(new_user);
+        }
+
+        fs.writeFileSync(__dirname + '/data/data.json', JSON.stringify(localData, null, 2));
+    })
+    .catch(error => {
+        console.error(error)
+    })
 
 io.on('connection', (socket) => {
 
     socket.on('start game', () => {
+        
+        io.emit('game started');
+
         // Démarrer le chronomètre
         intervalId = setInterval(updateChronometer, 1000); // Mettre à jour toutes les 1 seconde
-
-        io.emit('game started');
-        // io.removeListener('start game')
     });
 
     socket.on('new player', (uname)=>{
@@ -82,7 +119,7 @@ io.on('connection', (socket) => {
 
         io.emit('resultats', data);
 
-        seconds = 0;
+        seconds = MAX_TIME;
         for(player of data) {
             player.score = 0;
         }
